@@ -21,7 +21,7 @@ class CircuitBreaker {
         this.faultCountStartedMs = CircuitBreaker.NOT_STARTED;
         this.resetPeriodMs = settings.resetPeriodMs;
         this.openModeStartMs = CircuitBreaker.NOT_STARTED;
-        this.logger = settings.logger
+        this.logger = settings.logger;
     }
 
     call(config) {
@@ -31,28 +31,28 @@ class CircuitBreaker {
                 break;
             case CircuitBreaker.OPEN:
                 if (Date.now() >= this.openModeStartMs + this.resetPeriodMs) {
-                    this._log(`Switching to HALF_OPEN state.`)
+                    this._log(`Switching to HALF_OPEN state.`);
                     this.faultCount = 0;
                     this.state = CircuitBreaker.HALF_OPEN;
 
                     if (this._canTry()) {
-                        this._log(`Allow request in.`)
+                        this._log(`Allow request in.`);
                         this._increaseInFlightCounter();
                     } else {
-                        this._log(`Do not allow request in. Max cap of requests reached for ${CircuitBreaker.HALF_OPEN}.`)
+                        this._log(`Do not allow request in. Max cap of requests reached for ${CircuitBreaker.HALF_OPEN}.`);
                         throw new CircuitBreakerHalfOpenError(`Request was cancelled by Circuit Breaker. State=${CircuitBreaker.HALF_OPEN}.`, '425', config);
                     }
                 } else {
-                    this._log(`Reject request due to ${CircuitBreaker.OPEN} state.`)
+                    this._log(`Reject request due to ${CircuitBreaker.OPEN} state.`);
                     throw new CircuitBreakerOpenError(`Request was cancelled by Circuit Breaker. State=${CircuitBreaker.OPEN}`, '425', config);
                 }
                 break;
             case CircuitBreaker.HALF_OPEN:
                 if (this._canTry()) {
-                    this._log(`Allow request in.`)
+                    this._log(`Allow request in.`);
                     this._increaseInFlightCounter();
                 } else {
-                    this._log(`Do not allow request in. Max cap of requests reached reached for ${CircuitBreaker.HALF_OPEN}.`)
+                    this._log(`Do not allow request in. Max cap of requests reached reached for ${CircuitBreaker.HALF_OPEN}.`);
                     throw new CircuitBreakerHalfOpenError(`Request was cancelled by Circuit Breaker. State=${CircuitBreaker.HALF_OPEN}`, '425', config);
                 }
                 break;
@@ -60,13 +60,13 @@ class CircuitBreaker {
     }
 
     processFault() {
-        this._log(`Processing fault. state=${this.state}`)
+        this._log(`Processing fault. state=${this.state}`);
         switch (this.state) {
             case CircuitBreaker.CLOSED:
                 if (this.faultCountStartedMs === CircuitBreaker.NOT_STARTED) {
                     this.faultCountStartedMs = Date.now()
                 } else if (Date.now() > this.faultCountStartedMs + this.thresholdPeriodMs) {
-                    this._log('Threshold period passed. Reset the fault count to 0.')
+                    this._log('Threshold period passed. Reset the fault count to 0.');
                     this.faultCount = 0;
                     this.faultCountStartedMs = Date.now();
                 }
@@ -74,13 +74,13 @@ class CircuitBreaker {
                 // Count faults until threshold is met.
                 this.faultCount++
                 if (this.faultCount >= this.threshold) {
-                    this._log(`Crossed the threshold of faults. Switching to ${CircuitBreaker.OPEN} state.`)
+                    this._log(`Crossed the threshold of faults. Switching to ${CircuitBreaker.OPEN} state.`);
                     this._switchToOpenState();
                 }
                 break;
             case CircuitBreaker.HALF_OPEN:
-                this._log(`Encountered a fault during ${CircuitBreaker.HALF_OPEN} state. Switching to ${CircuitBreaker.OPEN} state.`)
-                this._switchToOpenState()
+                this._log(`Encountered a fault during ${CircuitBreaker.HALF_OPEN} state. Switching to ${CircuitBreaker.OPEN} state.`);
+                this._switchToOpenState();
                 break;
         }
     }
@@ -88,11 +88,11 @@ class CircuitBreaker {
     processSuccess() {
         this._log(`Processing success. state=${this.state}`)
         if (this.state === CircuitBreaker.HALF_OPEN) {
-            this._log(`Increase success counter.`)
+            this._log(`Increase success counter.`);
             this.successCount++;
 
             if (this.successCount >= this.numRequestsToCloseCircuit) {
-                this._log(`Handled ${this.successCount} requests during ${CircuitBreaker.HALF_OPEN} state. Switching to ${CircuitBreaker.CLOSED} state.`)
+                this._log(`Handled ${this.successCount} requests during ${CircuitBreaker.HALF_OPEN} state. Switching to ${CircuitBreaker.CLOSED} state.`);
                 this._switchToClosedState();
             }
         }
@@ -121,10 +121,10 @@ class CircuitBreaker {
     }
 
     _log(message) {
-        this.logger(`CircuitBreaker[id=${this.id}]: ${message}`)
+        this.logger(`CircuitBreaker[id=${this.id}]: ${message}`);
     }
 }
 
 module.exports = {
-    CircuitBreaker
+    CircuitBreaker,
 }

@@ -15,7 +15,7 @@ const defaultOptions = {
 
 function axiosCircuitBreaker(axios, userOptions) {
     const options = Object.assign(defaultOptions, userOptions);
-    let instance = new CircuitBreaker(options)
+    let instance = new CircuitBreaker(options);
 
     axios.interceptors.request.use(async (config) => {
         instance.call(config);
@@ -29,16 +29,16 @@ function axiosCircuitBreaker(axios, userOptions) {
 
     axios.interceptors.response.use(
         async (response) => {
-            instance.processSuccess()
+            instance.processSuccess();
 
             return response;
         },
         async (error) => {
             if (options.isFault(error)) {
-                instance.processFault()
+                instance.processFault();
             }
 
-            return Promise.reject(error)
+            return Promise.reject(error);
         },
         {
             synchronous: false,
@@ -49,5 +49,5 @@ function axiosCircuitBreaker(axios, userOptions) {
 module.exports = {
     axiosCircuitBreaker,
     CircuitBreakerOpenError,
-    CircuitBreakerHalfOpenError
+    CircuitBreakerHalfOpenError,
 }

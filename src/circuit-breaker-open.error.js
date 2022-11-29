@@ -4,5 +4,5 @@ class CircuitBreakerOpenError extends AxiosError {
 }
 
 module.exports = {
-    CircuitBreakerOpenError
+    CircuitBreakerOpenError,
 }
