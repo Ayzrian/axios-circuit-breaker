@@ -33,7 +33,7 @@ In the example below, you can see that our function accepts second parameter wit
 code snipped you can see default values for it, all of them are optional when you pass them;
 
 ```javascript
-        axiosCircuitBreaker(axios, {
+    axiosCircuitBreaker(axios, {
         // By default, each Circuit Breaker will have auto-generated numeric id
         // though most of the time it is more convenient to have more meaningful id like "UserService", etc.
         // This ID is used in the logs that CircuitBreaker producing.
