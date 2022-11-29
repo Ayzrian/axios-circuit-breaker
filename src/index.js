@@ -32,6 +32,8 @@ class CircuitBreaker {
     call(config) {
         this._log(`Call to third-party. state=${this.state}.`);
         switch (this.state) {
+            case CLOSED:
+                break;
             case OPEN:
                 if (Date.now() >= this.openModeStartMs + this.resetPeriodMs) {
                     this._log(`Switching to HALF_OPEN state.`)
@@ -58,8 +60,6 @@ class CircuitBreaker {
                     this._log(`Do not allow request in. Max cap of requests reached reached for HALF_OPEN.`)
                     throw new CircuitBreakerHalfOpenError(`Request was cancelled by Circuit Breaker. State=HALF_OPEN`, '425', config);
                 }
-                break;
-            case CLOSED:
                 break;
         }
     }
