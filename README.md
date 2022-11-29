@@ -53,6 +53,7 @@ code snipped you can see default values for it, all of them are optional when yo
         // as fault; By default counts every request that has status code >= 500 as fault;
         isFault: (error) => error.response?.status >= 500,
         // Defines a logger that enables logging of internal state changes inside Circuit Breaker
+        // By default, logger is disabled.
         logger: (message) => console.log(message)
     });
 ```
