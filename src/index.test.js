@@ -1,7 +1,6 @@
 const nock = require('nock');
 const axios = require('axios');
 const { axiosCircuitBreaker, CircuitBreakerOpenError, CircuitBreakerHalfOpenError} = require('./index');
-const {AxiosError} = require("axios");
 
 describe('axios-circuit-breaker', () => {
     afterAll( () => {
@@ -179,7 +178,7 @@ describe('axios-circuit-breaker', () => {
             .get('/data')
             .reply(502);
 
-        await expect(instance.get(`/data`)).rejects.toBeInstanceOf(AxiosError);
+        await expect(instance.get(`/data`)).rejects.toBeInstanceOf(axios.AxiosError);
 
         await expect(instance.get(`/data`)).rejects.toBeInstanceOf(CircuitBreakerOpenError);
     });
