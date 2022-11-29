@@ -1,7 +1,5 @@
 name: Quality Gates
 
-run-name: Quality Gates for ${{ github.actor }} 🚀
-
 on:
   push:
     branches: [ $default-branch ]
