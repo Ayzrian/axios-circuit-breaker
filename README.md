@@ -10,7 +10,7 @@ Axios interceptor that implements [Circuit Breaker](https://learn.microsoft.com/
 For each target server that you want to control independently you need to create separate axios instance,
 and apply `axiosCircuitBreaker` interceptor to it.
 
-For example, you want to have two circuit breakers, one for requests to test.com another for test2.com
+For example, you want to have two circuit breakers, one for requests to test.com another for test2.com.
 
 ```javascript
     const axios = require('axios');
