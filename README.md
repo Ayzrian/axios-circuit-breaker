@@ -1,4 +1,6 @@
 # axios-circuit-breaker
+[![Quality Gates](https://github.com/Ayzrian/axios-circuit-breaker/actions/workflows/quality-gates.yml/badge.svg?branch=main&event=push)](https://github.com/Ayzrian/axios-circuit-breaker/actions/workflows/quality-gates.yml)
+
 Axios interceptor that implements [Circuit Breaker](https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker) pattern.
 
 ## How to use?
